@@ -4,8 +4,12 @@
     "libraries": [{
       "userSymbol": "LineBotSDK",
       "libraryId": "19_-0O3cvGwmHvKBVGIjAr7jqW75KoUiGr6w5zMGax_w17_mWCeUCRqpY",
-      "version": "17"
+      "version": "18"
     }]
+  },
+  "webapp": {
+    "access": "ANYONE_ANONYMOUS",
+    "executeAs": "USER_DEPLOYING"
   },
   "exceptionLogging": "STACKDRIVER"
 }

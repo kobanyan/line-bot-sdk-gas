@@ -47,6 +47,5 @@ export declare class Client {
     private userRichMenuUrl;
     private richMenuContentUrl;
     private defaultRichMenuUrl;
-    private baseHeaders;
-    private postHeaders;
+    private authHeader;
 }

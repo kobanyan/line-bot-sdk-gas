@@ -7,7 +7,8 @@ export class Client {
 
   public pushMessage(to: string, messages: Line.Message | Line.Message[]): void {
     UrlFetchApp.fetch(this.pushUrl(), {
-      headers: this.postHeaders(this.config.channelAccessToken),
+      contentType: 'application/json',
+      headers: this.authHeader(),
       method: 'post',
       payload: JSON.stringify({
         messages,
@@ -19,7 +20,8 @@ export class Client {
   public replyMessage(replyToken: string, messages: Line.Message | Line.Message[]): void {
     const messageArray = messages instanceof Array ? messages : [messages];
     UrlFetchApp.fetch(this.replyUrl(), {
-      headers: this.postHeaders(this.config.channelAccessToken),
+      contentType: 'application/json',
+      headers: this.authHeader(),
       method: 'post',
       payload: JSON.stringify({
         messages: messageArray,
@@ -30,7 +32,8 @@ export class Client {
 
   public multicast(to: string[], messages: Line.Message | Line.Message[]): void {
     UrlFetchApp.fetch(this.multicastUrl(), {
-      headers: this.postHeaders(this.config.channelAccessToken),
+      contentType: 'application/json',
+      headers: this.authHeader(),
       method: 'post',
       payload: JSON.stringify({
         messages,
@@ -42,7 +45,7 @@ export class Client {
   public getProfile(userId: string): Line.Profile {
     return JSON.parse(
       UrlFetchApp.fetch(this.userProfileUrl(userId), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ) as Line.Profile;
   }
@@ -50,7 +53,7 @@ export class Client {
   public getGroupMemberProfile(groupId: string, userId: string): Line.Profile {
     return JSON.parse(
       UrlFetchApp.fetch(this.groupMemberProfileUrl(groupId, userId), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ) as Line.Profile;
   }
@@ -58,7 +61,7 @@ export class Client {
   public getRoomMemberProfile(roomId: string, userId: string): Line.Profile {
     return JSON.parse(
       UrlFetchApp.fetch(this.roomMemberProfileUrl(roomId, userId), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ) as Line.Profile;
   }
@@ -66,7 +69,7 @@ export class Client {
   public getProfileWithEventSource(eventSource: Line.EventSource): Line.Profile {
     return JSON.parse(
       UrlFetchApp.fetch(this.profileUrl(eventSource), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ) as Line.Profile;
   }
@@ -74,7 +77,7 @@ export class Client {
   public getGroupMemberIds(groupId: string): string[] {
     return JSON.parse(
       UrlFetchApp.fetch(this.groupMemberIdsUrl(groupId), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ) as string[];
   }
@@ -82,34 +85,34 @@ export class Client {
   public getRoomMemberIds(roomId: string): string[] {
     return JSON.parse(
       UrlFetchApp.fetch(this.roomMemberIdsUrl(roomId), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ) as string[];
   }
 
   public getMessageContent(messageId: string): GoogleAppsScript.Base.Blob {
     return UrlFetchApp.fetch(this.contentUrl(messageId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
     }).getBlob();
   }
 
   public leaveGroup(groupId: string): void {
     UrlFetchApp.fetch(this.leaveGroupUrl(groupId), {
-      headers: this.postHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'post',
     });
   }
 
   public leaveRoom(roomId: string): void {
     UrlFetchApp.fetch(this.leaveRoomUrl(roomId), {
-      headers: this.postHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'post',
     });
   }
 
   public leaveWithEventSource(eventSource: Line.EventSource) {
     UrlFetchApp.fetch(this.leaveUrl(eventSource), {
-      headers: this.postHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'post',
     });
   }
@@ -117,14 +120,15 @@ export class Client {
   public getRichMenu(richMenuId: string): Line.RichMenuResponse {
     return JSON.parse(
       UrlFetchApp.fetch(this.richMenuUrl(richMenuId), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     );
   }
 
   public createRichMenu(richMenu: Line.RichMenu): string {
     return UrlFetchApp.fetch(this.richMenuUrl(), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      contentType: 'application/json',
+      headers: this.authHeader(),
       method: 'post',
       payload: JSON.stringify(richMenu),
     }).getContentText();
@@ -132,34 +136,34 @@ export class Client {
 
   public deleteRichMenu(richMenuId: string): void {
     UrlFetchApp.fetch(this.richMenuUrl(richMenuId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'delete',
     });
   }
 
   public getRichMenuIdOfUser(userId: string): string {
     return UrlFetchApp.fetch(this.userRichMenuUrl(userId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
     }).getContentText();
   }
 
   public linkRichMenuToUser(userId: string, richMenuId: string): void {
     UrlFetchApp.fetch(this.userRichMenuUrl(userId, richMenuId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'post',
     });
   }
 
   public unlinkRichMenuFromUser(userId: string): void {
     UrlFetchApp.fetch(this.userRichMenuUrl(userId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'delete',
     });
   }
 
   public getRichMenuImage(richMenuId: string): GoogleAppsScript.Base.Blob {
     return UrlFetchApp.fetch(this.richMenuContentUrl(richMenuId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
     }).getBlob();
   }
 
@@ -168,15 +172,9 @@ export class Client {
     data: GoogleAppsScript.Base.Blob,
     contentType?: string
   ): void {
-    const headers = (accessToken: string) => {
-      const base = this.baseHeaders(accessToken);
-      return {
-        Authorization: base.Authorization,
-        'Content-Type': contentType,
-      };
-    };
     UrlFetchApp.fetch(this.richMenuContentUrl(richMenuId), {
-      headers: headers(this.config.channelAccessToken),
+      contentType,
+      headers: this.authHeader(),
       method: 'post',
       payload: data,
     });
@@ -185,27 +183,27 @@ export class Client {
   public getRichMenuList(): Line.RichMenuResponse[] {
     return JSON.parse(
       UrlFetchApp.fetch(this.richMenuListUrl(), {
-        headers: this.baseHeaders(this.config.channelAccessToken),
+        headers: this.authHeader(),
       }).getContentText()
     ).richmenus as Line.RichMenuResponse[];
   }
 
   public setDefaultRichMenu(richMenuId: string): void {
     UrlFetchApp.fetch(this.defaultRichMenuUrl(richMenuId), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'post',
     });
   }
 
   public getDefaultRichMenuId(): string {
     return UrlFetchApp.fetch(this.defaultRichMenuUrl(), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
     }).getContentText();
   }
 
   public deleteDefaultRichMenu(): void {
     UrlFetchApp.fetch(this.defaultRichMenuUrl(), {
-      headers: this.baseHeaders(this.config.channelAccessToken),
+      headers: this.authHeader(),
       method: 'delete',
     });
   }
@@ -254,18 +252,9 @@ export class Client {
   private defaultRichMenuUrl = (richMenuId?: string) =>
     this.apiUrl(`user/all/richmenu${richMenuId ? `/${richMenuId}` : ''}`);
 
-  // TODO use field instead of parameter
-  private baseHeaders = (accessToken: string) => {
+  private authHeader = () => {
     return {
-      Authorization: `Bearer ${accessToken}`,
-    };
-  };
-  // TODO use fetch option
-  private postHeaders = (accessToken: string) => {
-    const base = this.baseHeaders(accessToken);
-    return {
-      Authorization: base.Authorization,
-      'Content-Type': 'application/json; charset=UTF-8',
+      Authorization: `Bearer ${this.config.channelAccessToken}`,
     };
   };
 }

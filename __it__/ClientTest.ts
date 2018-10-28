@@ -1,6 +1,15 @@
 import * as Line from '@line/bot-sdk';
 import * as LineBotSDK from '../Client';
 
+export function doPost(e: any) {
+  const channelAccessToken = PropertiesService.getScriptProperties().getProperty('ACCESS_TOKEN')!;
+  const event = JSON.parse(e.postData.contents).events[0];
+  const replyToken = event.replyToken;
+  const messageText = event.message.text;
+  const lc = new LineBotSDK.Client({ channelAccessToken });
+  lc.replyMessage(replyToken, { type: 'text', text: messageText });
+}
+
 export function pushTest() {
   const channelAccessToken = PropertiesService.getScriptProperties().getProperty('ACCESS_TOKEN')!;
   const userId1 = PropertiesService.getScriptProperties().getProperty('USER_ID_1')!;
