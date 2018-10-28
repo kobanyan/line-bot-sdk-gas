@@ -16,6 +16,18 @@ export declare class Client {
     leaveGroup(groupId: string): void;
     leaveRoom(roomId: string): void;
     leaveWithEventSource(eventSource: Line.EventSource): void;
+    getRichMenu(richMenuId: string): Line.RichMenuResponse;
+    createRichMenu(richMenu: Line.RichMenu): string;
+    deleteRichMenu(richMenuId: string): void;
+    getRichMenuIdOfUser(userId: string): string;
+    linkRichMenuToUser(userId: string, richMenuId: string): void;
+    unlinkRichMenuFromUser(userId: string): void;
+    getRichMenuImage(richMenuId: string): GoogleAppsScript.Base.Blob;
+    setRichMenuImage(richMenuId: string, data: GoogleAppsScript.Base.Blob, contentType?: string): void;
+    getRichMenuList(): Line.RichMenuResponse[];
+    setDefaultRichMenu(richMenuId: string): void;
+    getDefaultRichMenuId(): string;
+    deleteDefaultRichMenu(): void;
     private apiUrl;
     private pushUrl;
     private replyUrl;
@@ -30,6 +42,11 @@ export declare class Client {
     private leaveGroupUrl;
     private leaveRoomUrl;
     private leaveUrl;
+    private richMenuUrl;
+    private richMenuListUrl;
+    private userRichMenuUrl;
+    private richMenuContentUrl;
+    private defaultRichMenuUrl;
     private baseHeaders;
     private postHeaders;
 }

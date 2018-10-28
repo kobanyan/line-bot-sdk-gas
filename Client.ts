@@ -114,18 +114,101 @@ export class Client {
     });
   }
 
-  // public getRichMenu(richMenuId: string): Line.RichMenuResponse;
-  // public createRichMenu(richMenu: Types.RichMenu): string;
-  // public deleteRichMenu(richMenuId: string): void;
-  // public getRichMenuIdOfUser(userId: string): string;
-  // public linkRichMenuToUser(userId: string, richMenuId: string): void;
-  // public unlinkRichMenuFromUser(userId: string): void;
-  // public getRichMenuImage(richMenuId: string): Blob;
-  // public setRichMenuImage(richMenuId: string, data: Buffer | Readable, contentType?: string): void;
-  // public getRichMenuList(): Line.RichMenuResponse[];
-  // public setDefaultRichMenu(richMenuId: string): {};
-  // public getDefaultRichMenuId(): string;
-  // public deleteDefaultRichMenu(): {};
+  public getRichMenu(richMenuId: string): Line.RichMenuResponse {
+    return JSON.parse(
+      UrlFetchApp.fetch(this.richMenuUrl(richMenuId), {
+        headers: this.baseHeaders(this.config.channelAccessToken),
+      }).getContentText()
+    );
+  }
+
+  public createRichMenu(richMenu: Line.RichMenu): string {
+    return UrlFetchApp.fetch(this.richMenuUrl(), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+      method: 'post',
+      payload: JSON.stringify(richMenu),
+    }).getContentText();
+  }
+
+  public deleteRichMenu(richMenuId: string): void {
+    UrlFetchApp.fetch(this.richMenuUrl(richMenuId), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+      method: 'delete',
+    });
+  }
+
+  public getRichMenuIdOfUser(userId: string): string {
+    return UrlFetchApp.fetch(this.userRichMenuUrl(userId), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+    }).getContentText();
+  }
+
+  public linkRichMenuToUser(userId: string, richMenuId: string): void {
+    UrlFetchApp.fetch(this.userRichMenuUrl(userId, richMenuId), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+      method: 'post',
+    });
+  }
+
+  public unlinkRichMenuFromUser(userId: string): void {
+    UrlFetchApp.fetch(this.userRichMenuUrl(userId), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+      method: 'delete',
+    });
+  }
+
+  public getRichMenuImage(richMenuId: string): GoogleAppsScript.Base.Blob {
+    return UrlFetchApp.fetch(this.richMenuContentUrl(richMenuId), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+    }).getBlob();
+  }
+
+  public setRichMenuImage(
+    richMenuId: string,
+    data: GoogleAppsScript.Base.Blob,
+    contentType?: string
+  ): void {
+    const headers = (accessToken: string) => {
+      const base = this.baseHeaders(accessToken);
+      return {
+        Authorization: base.Authorization,
+        'Content-Type': contentType,
+      };
+    };
+    UrlFetchApp.fetch(this.richMenuContentUrl(richMenuId), {
+      headers: headers(this.config.channelAccessToken),
+      method: 'post',
+      payload: data,
+    });
+  }
+
+  public getRichMenuList(): Line.RichMenuResponse[] {
+    return JSON.parse(
+      UrlFetchApp.fetch(this.richMenuListUrl(), {
+        headers: this.baseHeaders(this.config.channelAccessToken),
+      }).getContentText()
+    ).richmenus as Line.RichMenuResponse[];
+  }
+
+  public setDefaultRichMenu(richMenuId: string): void {
+    UrlFetchApp.fetch(this.defaultRichMenuUrl(richMenuId), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+      method: 'post',
+    });
+  }
+
+  public getDefaultRichMenuId(): string {
+    return UrlFetchApp.fetch(this.defaultRichMenuUrl(), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+    }).getContentText();
+  }
+
+  public deleteDefaultRichMenu(): void {
+    UrlFetchApp.fetch(this.defaultRichMenuUrl(), {
+      headers: this.baseHeaders(this.config.channelAccessToken),
+      method: 'delete',
+    });
+  }
 
   private apiUrl = (path: string): string => `${Client.baseUrl}${path}`;
   private pushUrl = () => this.apiUrl('message/push');
@@ -161,12 +244,23 @@ export class Client {
         throw new Error('Unexpected eventSource.type to get leave url.');
     }
   };
+  private richMenuUrl = (richMenuId?: string) =>
+    this.apiUrl(`richmenu${richMenuId ? `/${richMenuId}` : ''}`);
+  private richMenuListUrl = () => this.apiUrl('richmenu/list');
+  private userRichMenuUrl = (userId: string, richMenuId?: string) =>
+    this.apiUrl(`user/${userId}/richmenu${richMenuId ? `/${richMenuId}` : ''}`);
+  private richMenuContentUrl = (richMenuId: string) =>
+    this.apiUrl(`richmenu/${richMenuId}/content`);
+  private defaultRichMenuUrl = (richMenuId?: string) =>
+    this.apiUrl(`user/all/richmenu${richMenuId ? `/${richMenuId}` : ''}`);
 
+  // TODO use field instead of parameter
   private baseHeaders = (accessToken: string) => {
     return {
       Authorization: `Bearer ${accessToken}`,
     };
   };
+  // TODO use fetch option
   private postHeaders = (accessToken: string) => {
     const base = this.baseHeaders(accessToken);
     return {
