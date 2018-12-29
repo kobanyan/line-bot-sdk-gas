@@ -6,12 +6,13 @@ export class Client {
   constructor(private config: Line.ClientConfig) {}
 
   public pushMessage(to: string, messages: Line.Message | Line.Message[]): void {
+    const messageArray = messages instanceof Array ? messages : [messages];
     UrlFetchApp.fetch(this.pushUrl(), {
       contentType: 'application/json',
       headers: this.authHeader(),
       method: 'post',
       payload: JSON.stringify({
-        messages,
+        messages: messageArray,
         to,
       }),
     });
@@ -31,12 +32,13 @@ export class Client {
   }
 
   public multicast(to: string[], messages: Line.Message | Line.Message[]): void {
+    const messageArray = messages instanceof Array ? messages : [messages];
     UrlFetchApp.fetch(this.multicastUrl(), {
       contentType: 'application/json',
       headers: this.authHeader(),
       method: 'post',
       payload: JSON.stringify({
-        messages,
+        messages: messageArray,
         to,
       }),
     });

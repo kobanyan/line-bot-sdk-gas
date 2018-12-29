@@ -8,22 +8,28 @@ export function doPost(e: any) {
   const messageText = event.message.text;
   const lc = new LineBotSDK.Client({ channelAccessToken });
   lc.replyMessage(replyToken, { type: 'text', text: messageText });
+  // lc.replyMessage(replyToken, [
+  //   { type: 'text', text: messageText },
+  //   { type: 'text', text: messageText },
+  // ]);
 }
 
 export function pushTest() {
   const channelAccessToken = PropertiesService.getScriptProperties().getProperty('ACCESS_TOKEN')!;
   const userId1 = PropertiesService.getScriptProperties().getProperty('USER_ID_1')!;
   const lc = new LineBotSDK.Client({ channelAccessToken });
-  lc.pushMessage(userId1, [{ type: 'text', text: 'a' }, { type: 'text', text: 'b' }]);
+  lc.pushMessage(userId1, { type: 'text', text: 'a' });
+  lc.pushMessage(userId1, [{ type: 'text', text: 'b' }, { type: 'text', text: 'c' }]);
 }
 
 export function multicastTest() {
   const channelAccessToken = PropertiesService.getScriptProperties().getProperty('ACCESS_TOKEN')!;
   const userId1 = PropertiesService.getScriptProperties().getProperty('USER_ID_1')!;
   const lc = new LineBotSDK.Client({ channelAccessToken });
+  lc.multicast([userId1], { type: 'text', text: 'multicast test L1' });
   lc.multicast(
     [userId1],
-    [{ type: 'text', text: 'multicast test L1' }, { type: 'text', text: 'multicast test L2' }]
+    [{ type: 'text', text: 'multicast test L2' }, { type: 'text', text: 'multicast test L3' }]
   );
 }
 
