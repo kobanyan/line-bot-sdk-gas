@@ -4,7 +4,11 @@ Google Apps Script SDK for LINE Messaging API
 
 [Node.js用](https://github.com/line/line-bot-sdk-nodejs) と同じインターフェイスで LINE Messaging API を Google Apps Script で利用できるようにしたライブラリです。
 
-## API ID
+## スクリプト ID
+
+`1EvYoqrPLkKgsV8FDgSjnHjW1jLp3asOSfDGEtLFO86pPSIm9PbuCQU7b`
+
+## API ID(クラシックエディタ用)
 
 `M9SALMELLb5j80Xc6lwp2BSX4BxE72EjN`
 
