@@ -14,7 +14,7 @@ Google Apps Script SDK for LINE Messaging API
 const lineClient = new LineBotSDK.Client({
   channelAccessToken: 'アクセストークン',
 });
-lineClient.replyMessage(replyToken, { type: 'text', messages: 'こんにちは' });
+lineClient.replyMessage(replyToken, { type: 'text', text: 'こんにちは' });
 ```
 
 ## メソッド
