@@ -6,19 +6,17 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "run-s compile clear",
-    "clasp:push": "clasp push",
-    "clear": "rimraf Client.js",
+    "precompile": "tslint --fix '**/*.ts'",
     "compile": "tsc -d Client.ts",
-    "lint": "tslint --fix '**/*.ts'",
-    "push": "run-s lint build clasp:push",
+    "postcompile": "rimraf Client.js",
+    "prepush": "yarn compile",
+    "push": "clasp push",
     "prettier": "prettier --write '**/*.ts'"
   },
   "devDependencies": {
     "@google/clasp": "^1.7.0",
     "@line/bot-sdk": "7.5.0",
     "@types/google-apps-script": "^0.0.28",
-    "npm-run-all": "^4.1.3",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
     "tslint": "^5.11.0",
