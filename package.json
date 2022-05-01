@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "precompile": "tslint --fix '**/*.ts'",
+    "precompile": "eslint . --ext .js,.jsx,.ts,.tsx",
     "compile": "tsc -d Client.ts",
     "postcompile": "rimraf Client.js",
     "prepush": "yarn compile",
@@ -17,10 +17,12 @@
     "@google/clasp": "^1.7.0",
     "@line/bot-sdk": "7.5.0",
     "@types/google-apps-script": "^0.0.28",
+    "@typescript-eslint/parser": "5.21.0",
+    "@typescript-eslint/eslint-plugin": "5.21.0",
+    "eslint": "8.14.0",
+    "eslint-config-prettier": "8.5.0",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
     "typescript": "4.6.4"
   }
 }
