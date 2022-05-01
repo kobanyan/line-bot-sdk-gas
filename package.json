@@ -9,13 +9,12 @@
     "prepare": "husky install",
     "precompile": "eslint . --ext .js,.jsx,.ts,.tsx",
     "compile": "tsc -d Client.ts",
-    "postcompile": "rimraf Client.js",
+    "postcompile": "prettier --parser typescript --write Client.d.ts",
     "prepush": "yarn compile",
-    "push": "clasp push",
-    "prettier": "prettier --write '**/*.ts'"
+    "push": "clasp push"
   },
   "devDependencies": {
-    "@google/clasp": "^1.7.0",
+    "@google/clasp": "2.4.1",
     "@line/bot-sdk": "7.5.0",
     "@types/google-apps-script": "^0.0.28",
     "@typescript-eslint/parser": "5.21.0",
