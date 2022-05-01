@@ -19,7 +19,10 @@ export function pushTest() {
   const userId1 = PropertiesService.getScriptProperties().getProperty('USER_ID_1')!;
   const lc = new LineBotSDK.Client({ channelAccessToken });
   lc.pushMessage(userId1, { type: 'text', text: 'a' });
-  lc.pushMessage(userId1, [{ type: 'text', text: 'b' }, { type: 'text', text: 'c' }]);
+  lc.pushMessage(userId1, [
+    { type: 'text', text: 'b' },
+    { type: 'text', text: 'c' },
+  ]);
 }
 
 export function multicastTest() {
@@ -29,7 +32,10 @@ export function multicastTest() {
   lc.multicast([userId1], { type: 'text', text: 'multicast test L1' });
   lc.multicast(
     [userId1],
-    [{ type: 'text', text: 'multicast test L2' }, { type: 'text', text: 'multicast test L3' }]
+    [
+      { type: 'text', text: 'multicast test L2' },
+      { type: 'text', text: 'multicast test L3' },
+    ]
   );
 }
 
