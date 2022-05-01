@@ -1,3 +1,4 @@
+/// <reference types="google-apps-script" />
 import * as Line from '@line/bot-sdk';
 export declare class Client {
     private config;
