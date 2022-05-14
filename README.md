@@ -26,29 +26,29 @@ lineClient.replyMessage(replyToken, { type: 'text', text: 'こんにちは' });
 詳細な使い方は本家と同じインターフェイスにしてある(Node と GAS での若干のクラスの差異がある部分(Readable | Buffer -> Blob)を除く)ので [Messaging APIリファレンス](https://developers.line.me/ja/reference/messaging-api/) をご参照ください。
 
 - constructor(config: Line.ClientConfig);
-- pushMessage(to: string, messages: Line.Message | Line.Message[]): void
-- replyMessage(replyToken: string, messages: Line.Message | Line.Message[]): void
-- multicast(to: string[], messages: Line.Message | Line.Message[]): void
+- pushMessage(to: string, messages: Line.Message | Line.Message[], notificationDisabled?: boolean | undefined): Line.MessageAPIResponseBase
+- replyMessage(replyToken: string, messages: Line.Message | Line.Message[], notificationDisabled?: boolean | undefined): Line.MessageAPIResponseBase
+- multicast(to: string[], messages: Line.Message | Line.Message[], notificationDisabled?: boolean | undefined): Line.MessageAPIResponseBase
 - getProfile(userId: string): Line.Profile;
 - getGroupMemberProfile(groupId: string, userId: string): Line.Profile;
 - getRoomMemberProfile(roomId: string, userId: string): Line.Profile;
 - getGroupMemberIds(groupId: string): string[];
 - getRoomMemberIds(roomId: string): string[];
 - getMessageContent(messageId: string): GoogleAppsScript.Base.Blob;
-- leaveGroup(groupId: string): void
-- leaveRoom(roomId: string): void
+- leaveGroup(groupId: string): any
+- leaveRoom(roomId: string): any
 - getRichMenu(richMenuId: string): Line.RichMenuResponse;
 - createRichMenu(richMenu: Line.RichMenu): string;
-- deleteRichMenu(richMenuId: string): void
+- deleteRichMenu(richMenuId: string): any
 - getRichMenuIdOfUser(userId: string): string;
-- linkRichMenuToUser(userId: string, richMenuId: string): void
-- unlinkRichMenuFromUser(userId: string): void
+- linkRichMenuToUser(userId: string, richMenuId: string): any
+- unlinkRichMenuFromUser(userId: string): any
 - getRichMenuImage(richMenuId: string): GoogleAppsScript.Base.Blob;
-- setRichMenuImage(richMenuId: string, data: GoogleAppsScript.Base.Blob, contentType?: string): void
+- setRichMenuImage(richMenuId: string, data: GoogleAppsScript.Base.Blob, contentType?: string): any
 - getRichMenuList(): Line.RichMenuResponse[];
-- setDefaultRichMenu(richMenuId: string): void;
+- setDefaultRichMenu(richMenuId: string): any;
 - getDefaultRichMenuId(): string;
-- deleteDefaultRichMenu(): void;
+- deleteDefaultRichMenu(): any;
 
 ## オリジナルのメソッド
 
