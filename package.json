@@ -1,7 +1,7 @@
 {
   "name": "line-bot-sdk-gas",
-  "version": "0.0.2",
-  "main": "LineClient.ts",
+  "version": "0.1.0",
+  "main": "Client.ts",
   "author": "kobanyan",
   "license": "MIT",
   "private": true,
