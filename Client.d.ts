@@ -5,12 +5,21 @@ export declare class Client {
   private static messagingUrl;
   private static dataUrl;
   constructor(config: Line.ClientConfig);
-  pushMessage(to: string, messages: Line.Message | Line.Message[]): Line.MessageAPIResponseBase;
+  pushMessage(
+    to: string,
+    messages: Line.Message | Line.Message[],
+    notificationDisabled?: boolean
+  ): Line.MessageAPIResponseBase;
   replyMessage(
     replyToken: string,
-    messages: Line.Message | Line.Message[]
+    messages: Line.Message | Line.Message[],
+    notificationDisabled?: boolean
   ): Line.MessageAPIResponseBase;
-  multicast(to: string[], messages: Line.Message | Line.Message[]): Line.MessageAPIResponseBase;
+  multicast(
+    to: string[],
+    messages: Line.Message | Line.Message[],
+    notificationDisabled?: boolean
+  ): Line.MessageAPIResponseBase;
   getProfile(userId: string): Line.Profile;
   getGroupMemberProfile(groupId: string, userId: string): Line.Profile;
   getRoomMemberProfile(roomId: string, userId: string): Line.Profile;

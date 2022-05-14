@@ -8,31 +8,37 @@ export class Client {
 
   public pushMessage(
     to: string,
-    messages: Line.Message | Line.Message[]
+    messages: Line.Message | Line.Message[],
+    notificationDisabled = false
   ): Line.MessageAPIResponseBase {
     return this.httpPost(this.pushUrl(), {
       messages: this.toArray(messages),
       to,
+      notificationDisabled,
     });
   }
 
   public replyMessage(
     replyToken: string,
-    messages: Line.Message | Line.Message[]
+    messages: Line.Message | Line.Message[],
+    notificationDisabled = false
   ): Line.MessageAPIResponseBase {
     return this.httpPost(this.replyUrl(), {
       messages: this.toArray(messages),
       replyToken,
+      notificationDisabled,
     });
   }
 
   public multicast(
     to: string[],
-    messages: Line.Message | Line.Message[]
+    messages: Line.Message | Line.Message[],
+    notificationDisabled = false
   ): Line.MessageAPIResponseBase {
     return this.httpPost(this.multicastUrl(), {
       messages: this.toArray(messages),
       to,
+      notificationDisabled,
     });
   }
 
